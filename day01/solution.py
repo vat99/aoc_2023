@@ -27,8 +27,7 @@ class Solution:
             "eight": "8",
             "nine": "9",
         }
-        r = '1|2|3|4|5|6|7|8|9|one|two|three|four|five|six|seven|eight|nine'
-        matches = re.findall('(?=(1|2|3|4|5|6|7|8|9|one|two|three|four|five|six|seven|eight|nine))', line)
+        matches = re.findall(r'(?=(1|2|3|4|5|6|7|8|9|one|two|three|four|five|six|seven|eight|nine))', line)
         first_digit = matches[0]
         last_digit = matches[-1]
         first_digit = digit_dict.get(first_digit) if first_digit in digit_dict else first_digit
@@ -63,7 +62,41 @@ class Solution:
             for line in lines:
                 all_lines.append(line.strip())
         return all_lines
+    
+    def compare(self, fname: str):
+        digit_dict = {
+            "one": "1",
+            "two": "2",
+            "three": "3",
+            "four": "4",
+            "five": "5",
+            "six": "6",
+            "seven": "7",
+            "eight": "8",
+            "nine": "9",
+        }
+        lines = self.read_input(fname=fname)
+        sum_correct = 0
+        sum_incorrect = 0
+        for line in lines:
+            matches_correct = re.findall(r'(?=(1|2|3|4|5|6|7|8|9|one|two|three|four|five|six|seven|eight|nine))', line)
+            matches_incorrect = re.findall(r'1|2|3|4|5|6|7|8|9|one|two|three|four|five|six|seven|eight|nine', line)
+
+            first_digit_c = matches_correct[0]
+            last_digit_c = matches_correct[-1]
+            first_digit_c = digit_dict.get(first_digit_c) if first_digit_c in digit_dict else first_digit_c
+            last_digit_c = digit_dict.get(last_digit_c) if last_digit_c in digit_dict else last_digit_c
+
+            first_digit_ic = matches_incorrect[0]
+            last_digit_ic = matches_incorrect[-1]
+            first_digit_ic = digit_dict.get(first_digit_ic) if first_digit_ic in digit_dict else first_digit_ic
+            last_digit_ic = digit_dict.get(last_digit_ic) if last_digit_ic in digit_dict else last_digit_ic
+            if (first_digit_c, last_digit_c) != (first_digit_ic, last_digit_ic):
+                print(f"line: {line}")
+                print(f"correct matches: {(first_digit_c, last_digit_c)}")
+                print(f"incorrect matches: {(first_digit_ic, last_digit_ic)}")
+                print()
 
 if __name__ == "__main__":
     solution = Solution()
-    print(solution.part02("input.txt"))
+    solution.compare("input.txt")
