@@ -31,7 +31,7 @@ class Solution:
         elif card == 'Q':
             return 12
         elif card == 'J':
-            return 11
+            return 1
         elif card == 'T':
             return 10
         else:
@@ -74,6 +74,7 @@ class Solution:
             rank = 1
         return ((rank, full_num), bid) 
     
+    @timing_decorator
     def part01(self, fname: str) -> int:
         hands_bids = self.parse(self.read_input(fname))
         sorted_data = sorted(hands_bids, key=self.get_rank)
