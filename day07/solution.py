@@ -36,20 +36,6 @@ class Solution:
             return 10
         else:
             return int(card)
-        
-    def cton(self, card: str) -> int:
-        if card == 'A':
-            return 14
-        elif card == 'K':
-            return 13
-        elif card == 'Q':
-            return 12
-        elif card == 'J':
-            return 1
-        elif card == 'T':
-            return 10
-        else:
-            return int(card)
     
     def get_counts(self, hand: str) -> Dict[int, int]:
         counts = dict()
