@@ -65,7 +65,7 @@ class Solution:
                         matching_pipes.append((r, c-1))
                 return tuple(matching_pipes)
             
-    def part01(self, fname: str) -> int:
+    def part01(self, fname: str) -> Tuple[int, set, List[str]]:
         graph, loc = self.read_input(fname=fname)
         p1, p2 = self._find_neighbor_pipes(graph=graph, loc=loc) # assuming 2 neighbors from start
         count = 1
@@ -78,8 +78,28 @@ class Solution:
             visited.add(p2)
             p2 = p2_neighbors[0] if p2_neighbors[0] not in visited else p2_neighbors[1]
             count += 1
-        return count
+        visited.add(p1)
+        return loc, visited, graph
+    
+    def part02(self, fname: str) -> int:
+        loc, visited, graph = self.part01(fname=fname)
+        inside_count = 0
+        for r,line in enumerate(graph):
+            for c,_ in enumerate(line):
+                if (r,c) in visited:
+                    continue
+                crosses = 0
+                x,y = r,c
+                while x < len(graph) and y < len(graph[0]):
+                    ch = graph[x][y]
+                    if (x,y) in visited and ch != 'L' and ch != '7':
+                        crosses += 1
+                    x += 1
+                    y += 1
+                if crosses % 2 == 1:
+                    inside_count += 1
+        return inside_count
 
 if __name__ == "__main__":
     solution = Solution()
-    print(solution.part01("input.txt"))
+    print(solution.part02("input.txt"))
